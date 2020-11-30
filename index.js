@@ -23,17 +23,16 @@ const client = new MongoClient(uri, {
 
 client.connect((err) => {
   const postCollection = client.db("twitter").collection("twitterPost");
-  //   console.log("db connected");
   app.post("/addPost", (req, res) => {
     const post = req.body;
     postCollection.insertOne(post).then((result) => {
-      console.log("post added");
-      // res.send(result.insertedCount > 0)
+      res.send(result.insertedCount > 0)
     });
   });
 
-  app.post("/post", (req, res) => {
-    postCollection.find({}).toArray((err, documents) => {
+  app.get("/post", (req, res) => {
+    postCollection.find({})
+    .toArray((err, documents) => {
       res.send(documents);
     });
   });
